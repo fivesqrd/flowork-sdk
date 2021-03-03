@@ -1,0 +1,30 @@
+{
+    "name": "fivesqrd/flowork",
+    "description": "The Flowork PHP client",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "authors": [
+        {
+            "name": "Christian Burger",
+            "email": "christian@fivesqrd.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Flowork\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Flowork\\Test\\": "tests/" }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Flowork\\Laravel\\ServiceProvider"
+            ],
+            "aliases": {
+                "Flowork": "Flowork\\Laravel\\Facade"
+            }
+        }
+    }
+}

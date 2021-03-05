@@ -24,17 +24,9 @@ class AuditLog
         $this->_client = $client;
         $this->_defaults = $defaults;
 
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $this->agent($_SERVER['HTTP_USER_AGENT'])
-        }
-
-        if (isset($_SERVER['REMOTE_ADDR'])) {
-            $this->ipAddress($_SERVER['REMOTE_ADDR'])
-        }
-
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $this->hostname($_SERVER['HTTP_HOST'])
-        }
+        $this->agent($_SERVER['HTTP_USER_AGENT'] ?? null);
+        $this->ipAddress($_SERVER['REMOTE_ADDR'] ?? null);
+        $this->hostname($_SERVER['HTTP_HOST'] ?? null);
     }
 
     public function env($value)

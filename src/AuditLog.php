@@ -6,8 +6,6 @@ class AuditLog
 {
     protected $_client;
 
-    protected $_env = 'production';
-
     protected $_defaults = [];
 
     protected $_attributes = [];
@@ -29,21 +27,10 @@ class AuditLog
         $this->hostname($_SERVER['HTTP_HOST'] ?? null);
     }
 
-    public function env($value)
-    {
-        $this->_env = $value;
-        return $this;
-    }
-
     public function create($values = null)
     {
         if (!$values) {
             $values = $this->expose();
-        }
-
-        // Don't send anything if this is not production
-        if ($this->_env !== 'production') {
-            return true;
         }
 
         return $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
@@ -60,6 +47,11 @@ class AuditLog
     {
         $current = $this->_attributes[$key] ?? [];
         return $this->attribute($key, array_merge($current, $value));
+    }
+
+    public function environment($value)
+    {
+        return $this->attribute('environment', $value);
     }
 
     public function user($value)

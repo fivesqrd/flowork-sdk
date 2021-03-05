@@ -2,7 +2,7 @@
 
 namespace Flowork;
 
-class EventLog
+class AuditLog
 {
     protected $_client;
 
@@ -54,7 +54,7 @@ class EventLog
             return true;
         }
 
-        return $this->_client->post('/eventlog', array_merge($this->_defaults, $values));
+        return $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
     }
 
     public function attribute($key, $value)

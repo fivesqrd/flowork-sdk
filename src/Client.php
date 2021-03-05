@@ -34,6 +34,16 @@ class Client
         $this->_headers['X-Flowork-Token'] = $token;
     }
 
+    protected function _sanitisePath($path)
+    {
+        if (substr($path, 0, 1) != '/') {
+            return $path;
+        }
+
+        // Remove prefix slash for Guzzle client quirk
+        return substr($path, 1);
+    }
+
     /**
      * @todo Figure out a way to cache this for a while
      * @param string $path
@@ -43,7 +53,7 @@ class Client
     public function get($path, $query = array())
     {
         $response = $this->_client->request(
-            'GET', $path, ['query' => $query, 'headers' => $this->_headers]
+            'GET', $this->_sanitisePath($path), ['query' => $query, 'headers' => $this->_headers]
         );
 
         if ($response->getStatusCode() != 200) {
@@ -58,7 +68,7 @@ class Client
     public function post($path, $data, $query = array())
     {
         $response = $this->_client->request(
-            'POST', $path, ['json' => $data, 'query' => $query, 'headers' => $this->_headers]
+            'POST', $this->_sanitisePath($path), ['json' => $data, 'query' => $query, 'headers' => $this->_headers]
         );
 
         if ($response->getStatusCode() != 200) {
@@ -73,7 +83,7 @@ class Client
     public function put($path, $data, $query = array())
     {
         $response = $this->_client->request(
-            'PUT', $path, ['json' => $data, 'query' => $query, 'headers' => $this->_headers]
+            'PUT', $this->_sanitisePath($path), ['json' => $data, 'query' => $query, 'headers' => $this->_headers]
         );
 
         if ($response->getStatusCode() != 200) {
@@ -88,7 +98,7 @@ class Client
     public function delete($path, $query = array())
     {
         $response = $this->_client->request(
-            'DELETE', $path, ['query' => $query, 'headers' => $this->_headers]
+            'DELETE', $this->_sanitisePath($path), ['query' => $query, 'headers' => $this->_headers]
         );
 
         if ($response->getStatusCode() != 200) {

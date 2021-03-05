@@ -58,7 +58,8 @@ class AuditLog
 
     protected function merge($key, $value)
     {
-        return $this->attribute($key, array_merge($this->_attributes[$key], $value));
+        $current = $this->_attributes[$key] ?? [];
+        return $this->attribute($key, array_merge($current, $value));
     }
 
     public function user($value)

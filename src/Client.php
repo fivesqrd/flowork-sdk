@@ -12,7 +12,7 @@ class Client
         'Accept'       => 'application/json'
     ];
 
-    const DEFAULT_URI = 'https://flowork.5sq.io/api/v1/';
+    const DEFAULT_URI = 'https://flowork.5sq.io/api/v1';
 
     public static function instance($config = [])
     {
@@ -37,8 +37,8 @@ class Client
     /**
      * @todo Figure out a way to cache this for a while
      * @param string $path
-     * @throws Frog_Exception
-     * @return Zend_Http_Response
+     * @throws \Flowork\Exception
+     * @return array
      */
     public function get($path, $query = array())
     {

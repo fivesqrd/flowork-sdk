@@ -84,6 +84,11 @@ class AuditLog
         return $this->attribute('category', $value);
     }
 
+    public function uniqueId($value)
+    {
+        return $this->attribute('uid', $value);
+    }
+
     public function description($value)
     {
         return $this->attribute('description', $value);

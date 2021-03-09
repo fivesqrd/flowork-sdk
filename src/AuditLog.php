@@ -36,6 +36,19 @@ class AuditLog
         return $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
     }
 
+    public function fetch($values = null)
+    {
+        if (!$values) {
+            $values = $this->expose();
+        }
+
+        if (isset($values['user']['id'])) {
+            $values['user-id'] = $values['user']['id'];
+        }
+
+        return $this->_client->get('/audit-log', array_merge($this->_defaults, $values));
+    }
+
     public function attribute($key, $value)
     {
         $this->_attributes[$key] = $value;

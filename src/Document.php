@@ -17,7 +17,7 @@ class Document
         );
     }
 
-    public function __construct($config, $defaults = [])
+    public function __construct($client, $defaults = [])
     {
         $this->_client = $client;
         $this->_defaults = $defaults;

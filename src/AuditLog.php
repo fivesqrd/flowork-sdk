@@ -36,7 +36,7 @@ class AuditLog
         return $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
     }
 
-    public function fetch($values = null)
+    public function find($values = null)
     {
         if (!$values) {
             $values = $this->expose();
@@ -47,6 +47,11 @@ class AuditLog
         }
 
         return $this->_client->get('/audit-log', array_merge($this->_defaults, $values));
+    }
+
+    public function fetch($id)
+    {
+        return $this->_client->get("/audit-log/{$id}");
     }
 
     public function attribute($key, $value)

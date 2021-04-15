@@ -33,7 +33,9 @@ class AuditLog
             $values = $this->expose();
         }
 
-        return $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
+        $response = $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
+
+        return json_decode($response, true);
     }
 
     public function find($values = null)
@@ -46,12 +48,14 @@ class AuditLog
             $values['user-id'] = $values['user']['id'];
         }
 
-        return $this->_client->get('/audit-log', array_merge($this->_defaults, $values));
+        $response = $this->_client->get('/audit-log', array_merge($this->_defaults, $values));
+
+        return json_decode($response, true);
     }
 
     public function fetch($id)
     {
-        return $this->_client->get("/audit-log/{$id}");
+        return json_decode($this->_client->get("/audit-log/{$id}"), true);
     }
 
     public function attribute($key, $value)

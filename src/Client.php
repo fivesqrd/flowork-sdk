@@ -62,7 +62,7 @@ class Client
             );
         }
 
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody(), true);
     }
 
     public function post($path, $data, $query = array())
@@ -77,7 +77,7 @@ class Client
             );
         }
 
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody(), true);
     }
 
     public function put($path, $data, $query = array())
@@ -92,7 +92,7 @@ class Client
             );
         }
 
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody(), true);
     }
 
     public function delete($path, $query = array())
@@ -107,6 +107,6 @@ class Client
             );
         }
 
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody(), true);
     }
 }

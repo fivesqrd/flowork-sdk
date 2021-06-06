@@ -4,11 +4,11 @@ namespace Flowork;
 
 class AuditLog
 {
-    protected $_client;
+    protected $client;
 
-    protected $_defaults = [];
+    protected $defaults = [];
 
-    protected $_attributes = [];
+    protected $attributes = [];
 
     public static function instance($config, $defaults = [])
     {
@@ -19,23 +19,35 @@ class AuditLog
 
     public function __construct($client, $defaults = [])
     {
-        $this->_client = $client;
-        $this->_defaults = $defaults;
+        $this->client = $client;
+        $this->defaults = $defaults;
 
         $this->agent($_SERVER['HTTP_USER_AGENT'] ?? null);
         $this->ipAddress($_SERVER['REMOTE_ADDR'] ?? null);
         $this->hostname($_SERVER['HTTP_HOST'] ?? null);
     }
 
-    public function create($values = null)
+    /**
+     * Post one audit log to the API
+     */
+    public function send($values = null)
     {
         if (!$values) {
             $values = $this->expose();
         }
 
-        $response = $this->_client->post('/audit-log', array_merge($this->_defaults, $values));
+        $response = $this->client->post('/audit-log', [array_merge($this->defaults, $values)]);
 
         return json_decode($response, true);
+    }
+
+    /**
+     * Queue this log for later
+     */
+    public function batch()
+    {
+        AuditLogBatch::withClient($this->client)->add($this);
+        return $this;
     }
 
     public function find($values = null)
@@ -48,26 +60,26 @@ class AuditLog
             $values['user-id'] = $values['user']['id'];
         }
 
-        $response = $this->_client->get('/audit-log', array_merge($this->_defaults, $values));
+        $response = $this->client->get('/audit-log', array_merge($this->defaults, $values));
 
         return json_decode($response, true);
     }
 
     public function fetch($id)
     {
-        return json_decode($this->_client->get("/audit-log/{$id}"), true);
+        return json_decode($this->client->get("/audit-log/{$id}"), true);
     }
 
     public function attribute($key, $value)
     {
-        $this->_attributes[$key] = $value;
+        $this->attributes[$key] = $value;
 
         return $this;
     }
 
     protected function merge($key, $value)
     {
-        $current = $this->_attributes[$key] ?? [];
+        $current = $this->attributes[$key] ?? [];
         return $this->attribute($key, array_merge($current, $value));
     }
 
@@ -123,6 +135,6 @@ class AuditLog
 
     public function expose()
     {
-        return $this->_attributes;
+        return $this->attributes;
     }
 }

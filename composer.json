@@ -20,12 +20,12 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Flowork\\Laravel\\Providers\PackageServiceProvider"
+                "Flowork\\Laravel\\Providers\\PackageServiceProvider"
             ],
             "aliases": {
-                "Flowork": "Flowork\\Laravel\\Facades\Flowork",
-                "Document": "Flowork\\Laravel\\Facades\Document",
-                "Auditlog": "Flowork\\Laravel\\Facades\Auditlog"
+                "Flowork": "Flowork\\Laravel\\Facades\\Flowork",
+                "Document": "Flowork\\Laravel\\Facades\\Document",
+                "Auditlog": "Flowork\\Laravel\\Facades\\Auditlog"
             }
         }
     }

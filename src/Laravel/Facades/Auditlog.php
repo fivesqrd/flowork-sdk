@@ -1,14 +1,14 @@
 <?php 
-namespace Flowork\Laravel;
+namespace Flowork\Laravel\Facades;
 
-use Illuminate\Support;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * Atlas Facade
  *
  * @method static Atlas model($class) Get a model helper class.
  */
-class Facade extends Support\Facades\Facade
+class Auditlog extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -17,6 +17,6 @@ class Facade extends Support\Facades\Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'flowork';
+        return 'auditlog';
     }
 }

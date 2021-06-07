@@ -1,15 +1,18 @@
 <?php
 
-namespace Flowork\Laravel;
+namespace Flowork\Laravel\Providers;
 
 use Atlas;
-use Illuminate\Support;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Flowork\Factory;
+use Flowork\AuditLog;
+use Flowork\Document;
 
 /**
  * Atlas service provider
  */
-class ServiceProvider extends Support\ServiceProvider
+class PackageServiceProvider extends ServiceProvider
 {
     const VERSION = '1.0.0';
 
@@ -41,16 +44,22 @@ class ServiceProvider extends Support\ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Laravel/_config.php', 'flowork'
-        );
+        $this->mergeConfigFrom(dirname(__DIR__) . '/Laravel/_config.php', 'flowork');
 
-        $this->app->singleton('Flowork', function ($app) {
-            $config = $app->make('config')->get('flowork');
-            return new Factory($config);
+        $this->app->register(EventServiceProvider::class);
+
+        $this->app->bind('flowork', function ($app) {
+            return new Factory($app->make('config')->get('flowork'));
         });
 
-        $this->app->alias('flowork', 'Flowork');
+        $this->app->bind('document', function ($app) {
+            return new Document($app->make('config')->get('flowork'));
+        });
+
+        $this->app->bind('auditlog', function ($app) {
+            $config = $app->make('config');
+            return AuditLog::instance($config->get('flowork'), ['environment' => $config->get('app.env')]);
+        });
     }
 
     /**

@@ -1,8 +1,6 @@
 <?php
 
-namespace Flowork\Laravel;
-
-use Flowork\Document;
+namespace Flowork;
 
 class Factory
 {
@@ -14,6 +12,11 @@ class Factory
     {
         $this->_config = $config;
         $this->_defaults = $defaults;
+    }
+
+    public function auditlog()
+    {
+        return AuditLog::instance($this->_config);
     }
 
     public function document($attributes)

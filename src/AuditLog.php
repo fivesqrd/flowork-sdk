@@ -28,6 +28,22 @@ class AuditLog
     }
 
     /**
+     * Get a batch instance
+     */
+    public function batch() : AuditLogBatch
+    {
+        return AuditLogBatch::withClient($this->client);
+    }
+
+    /**
+     * Get a fetch instance
+     */
+    public function fetch() : AuditLogFetch
+    {
+        return new AuditLogFetch($this->client);
+    }
+
+    /**
      * Post one audit log to the API
      */
     public function send($values = null)
@@ -46,28 +62,16 @@ class AuditLog
      */
     public function push()
     {
-        AuditLogBatch::withClient($this->client)->push($this);
+        $this->batch()->push($this);
         return $this;
     }
 
-    public function find($values = null)
+    /**
+     * Find logs similar to this one
+     */
+    public function find() : array
     {
-        if (!$values) {
-            $values = $this->expose();
-        }
-
-        if (isset($values['user']['id'])) {
-            $values['user-id'] = $values['user']['id'];
-        }
-
-        $response = $this->client->get('/audit-log', $values);
-
-        return json_decode($response, true);
-    }
-
-    public function fetch($id)
-    {
-        return json_decode($this->client->get("/audit-log/{$id}"), true);
+        return $this->fetch()->search($this->expose());
     }
 
     public function attribute($key, $value)

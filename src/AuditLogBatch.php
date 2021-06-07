@@ -45,11 +45,14 @@ class AuditLogBatch
         return $this;
     }
 
-    public function send() : array
+    /**
+     * @return mixed null|array
+     */
+    public function send()
     {
         // Check if we have anything to send
         if (empty($this->logs)) {
-            return false;
+            return null;
         }
 
         $response = $this->client->post('/audit-log', $this->expose());

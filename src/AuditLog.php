@@ -42,11 +42,11 @@ class AuditLog
     }
 
     /**
-     * Queue this log for later
+     * Add this log to queue for later
      */
-    public function batch()
+    public function push()
     {
-        AuditLogBatch::withClient($this->client)->add($this);
+        AuditLogBatch::withClient($this->client)->push($this);
         return $this;
     }
 

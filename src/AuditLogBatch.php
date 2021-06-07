@@ -31,7 +31,7 @@ class AuditLogBatch
         $this->client = $client;
     }
 
-    public function add(AuditLog $log)
+    public function push(AuditLog $log)
     {
         $this->logs[] = $log;
         return $this;

@@ -12,18 +12,26 @@ class AuditLogBatch
 
     public static function withClient($client) : AuditLogBatch
     {
-        return self::$instance ?: new static($client);
+        if (static::$instance) {
+            return static::$instance;
+        }
+
+        static::$instance = new static($client);
+
+        return static::$instance;
     }
 
     public static function instance($config) : AuditLogBatch
     {
-        if (self::$instance) {
-            return self::$instance;
+        if (static::$instance) {
+            return static::$instance;
         }
 
-        return new static(
+        static::$instance = new static(
             Client::instance(['token' => $config['token'], 'uri' => $config['uri']])
         );
+
+        return static::$instance;
     }
 
     private function __construct($client)

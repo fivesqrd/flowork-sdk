@@ -32,7 +32,7 @@ class PackageServiceProvider extends ServiceProvider
     {
         /* Path to default config file */
         $this->publishes([
-            dirname(__DIR__) . '/Laravel/_config.php' => config_path('flowork.php')
+            dirname(__DIR__) . '/config.php' => config_path('flowork.php')
         ]);
 
     }
@@ -44,7 +44,7 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(dirname(__DIR__) . '/Laravel/_config.php', 'flowork');
+        $this->mergeConfigFrom(dirname(__DIR__) . '/_config.php', 'flowork');
 
         $this->app->register(EventServiceProvider::class);
 

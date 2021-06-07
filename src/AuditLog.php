@@ -36,7 +36,7 @@ class AuditLog
             $values = $this->expose();
         }
 
-        $response = $this->client->post('/audit-log', [array_merge($this->defaults, $values)]);
+        $response = $this->client->post('/audit-log', [$values]);
 
         return json_decode($response, true);
     }
@@ -60,7 +60,7 @@ class AuditLog
             $values['user-id'] = $values['user']['id'];
         }
 
-        $response = $this->client->get('/audit-log', array_merge($this->defaults, $values));
+        $response = $this->client->get('/audit-log', $values);
 
         return json_decode($response, true);
     }
@@ -135,6 +135,6 @@ class AuditLog
 
     public function expose()
     {
-        return $this->attributes;
+        return array_merge($this->defaults, $this->attributes);
     }
 }

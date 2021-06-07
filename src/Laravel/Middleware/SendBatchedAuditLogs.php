@@ -4,6 +4,7 @@ namespace Flowork\Laravel\Middleware;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Flowork\Laravel\Facades\Auditlog;
 use Closure;
 
 class SendBatchedAuditLogs
@@ -25,7 +26,7 @@ class SendBatchedAuditLogs
      */
     public function terminate(Request $request, $response)
     {
-        $batch = resolve('Flowork')->auditlogBatch();
+        $batch = Auditlog::batch();
         Log::debug("{$batch->count()} Flowork audit logs in batch");
         $result = $batch->send();
         Log::debug("Flowork audit logs sent via middleware", $result ?: []);

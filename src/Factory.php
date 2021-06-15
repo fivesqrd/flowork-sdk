@@ -14,17 +14,13 @@ class Factory
         $this->_defaults = $defaults;
     }
 
-    public function auditlog()
+    public function auditlog($defaults = [])
     {
-        return AuditLog::instance($this->_config);
+        return AuditLog::instance($this->_config, array_merge($this->_defaults, $defaults));
     }
 
-    public function document($attributes)
+    public function document($defaults = [])
     {
-        $document = new Document(
-            $this->_config, $this->_defaults
-        );
-
-        return $document->create($attributes);
+        return Document::instance($this->_config, array_merge($this->_defaults, $defaults));
     }
 }

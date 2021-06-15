@@ -48,12 +48,12 @@ class PackageServiceProvider extends ServiceProvider
 
         $this->app->register(EventServiceProvider::class);
 
-        $this->app->bind('flowork', function ($app) {
-            return new Factory($app->make('config')->get('flowork'));
+        $this->app->bind('flowork', function ($app, $defaults) {
+            return new Factory($app->make('config')->get('flowork'), $defaults);
         });
 
         $this->app->bind('document', function ($app) {
-            return new Document($app->make('config')->get('flowork'));
+            return Document::instance($app->make('config')->get('flowork'));
         });
 
         $this->app->bind('auditlog', function ($app) {

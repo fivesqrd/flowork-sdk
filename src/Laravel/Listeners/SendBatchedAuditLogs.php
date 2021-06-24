@@ -32,7 +32,7 @@ class SendBatchedAuditLogs
     {
         $batch = Auditlog::batch();
         Log::debug("{$batch->count()} Flowork audit logs in batch");
-        $result = $batch->send();
+        $result = $batch->send(30);
         Log::debug("Flowork audit logs sent via console command listener", $result ?: []);
     }
 }

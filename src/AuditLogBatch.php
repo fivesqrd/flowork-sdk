@@ -48,16 +48,25 @@ class AuditLogBatch
     /**
      * @return mixed null|array
      */
-    public function send()
+    public function send($maxChunkSize = 50)
     {
         // Check if we have anything to send
         if (empty($this->logs)) {
             return null;
         }
 
-        $response = $this->client->post('/audit-log', $this->expose());
+        // Split batch into chunks
+        $chunks = array_chunk($this->expose(), $maxChunkSize);
 
-        return json_decode($response, true);
+        $responses = [];
+
+        // Send batches in chunks of $maxChunkSize per request
+        foreach ($chunks as $chunk) {
+            $response = $this->client->post('/audit-log', $chunk);
+            $responses[] = json_decode($response, true);
+        }
+
+        return $responses;
     }
 
     public function logs() : array
@@ -72,6 +81,7 @@ class AuditLogBatch
 
     public function expose() : array
     {
+        // Convert log objects to plain array
         return array_map(fn(AuditLog $log): array => $log->expose(), $this->logs);
     }
 }

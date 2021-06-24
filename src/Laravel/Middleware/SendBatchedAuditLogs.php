@@ -28,7 +28,7 @@ class SendBatchedAuditLogs
     {
         $batch = Auditlog::batch();
         Log::debug("{$batch->count()} Flowork audit logs in batch");
-        $result = $batch->send();
+        $result = $batch->send(50);
         Log::debug("Flowork audit logs sent via middleware", $result ?: []);
     }
 }

@@ -31,8 +31,8 @@ class SendBatchedAuditLogs
     public function handle($event)
     {
         $batch = Auditlog::batch();
-        Log::debug("{$batch->count()} Flowork audit logs in batch");
+        //Log::debug("{$batch->count()} Flowork audit logs in batch");
         $result = $batch->send(30);
-        Log::debug("Flowork audit logs sent via console command listener", $result ?: []);
+        //Log::debug("Flowork audit logs sent via console command listener", $result ?: []);
     }
 }

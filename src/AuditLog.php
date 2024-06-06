@@ -52,7 +52,12 @@ class AuditLog
             $values = $this->expose();
         }
 
-        $response = $this->client->post('/audit-log', [$values]);
+        return $this->post([$values]);
+    }
+
+    public function post($payload)
+    {
+        $response = $this->client->post('/audit-log', $payload);
 
         return json_decode($response, true);
     }
